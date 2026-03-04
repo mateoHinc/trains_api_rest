@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/api_trains
+    url: jdbc:postgresql://localhost:5432/apitrains
     username: postgres
     password: 12345
 
