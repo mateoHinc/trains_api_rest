@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.company.trains_api_rest.dtos.train_dto.TrainCreateRequest;
 import com.company.trains_api_rest.dtos.train_dto.TrainResponse;
+import com.company.trains_api_rest.dtos.train_dto.TrainUpdateRequest;
 import com.company.trains_api_rest.exception.ResourceNotFoundException;
 import com.company.trains_api_rest.model.Train;
 import com.company.trains_api_rest.repository.TrainRepository;
@@ -46,6 +47,24 @@ public class TrainService {
         t.setName(req.getName());
         t.setCapacity(req.getCapacity());
         return toResponse(repo.save(t));
+    }
+
+    public TrainResponse patchTrain(Long id, TrainUpdateRequest req) {
+        Train t = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tren no encontrado"+id));
+
+        if(req.getName() != null){
+            t.setName(req.getName());
+        }
+
+        if(req.getCapacity() != null){
+            t.setCapacity(req.getCapacity());
+        }
+
+        if(req.getType() != null){
+            t.setType(req.getType());
+        }
+
+        return toResponse(t);
     }
 
     public void deleteTrain(Long id){
