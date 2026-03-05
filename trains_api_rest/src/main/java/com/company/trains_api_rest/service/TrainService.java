@@ -9,6 +9,7 @@ import com.company.trains_api_rest.dtos.train_dto.TrainResponse;
 import com.company.trains_api_rest.dtos.train_dto.TrainUpdateRequest;
 import com.company.trains_api_rest.exception.ResourceNotFoundException;
 import com.company.trains_api_rest.model.Train;
+import com.company.trains_api_rest.model.TrainType;
 import com.company.trains_api_rest.repository.TrainRepository;
 
 @Service
@@ -72,6 +73,11 @@ public class TrainService {
             throw new ResourceNotFoundException("Tren no encontrado: "+id);
         }
         repo.deleteById(id);
+    }
+
+    public List<TrainResponse> listType(TrainType type){
+        var data = (type == null) ? repo.findAll() : repo.findByType(type);
+        return data.stream().map(this::toResponse).toList();
     }
 
 }

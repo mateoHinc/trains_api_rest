@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.trains_api_rest.dtos.train_dto.TrainCreateRequest;
 import com.company.trains_api_rest.dtos.train_dto.TrainResponse;
 import com.company.trains_api_rest.dtos.train_dto.TrainUpdateRequest;
+import com.company.trains_api_rest.model.TrainType;
 import com.company.trains_api_rest.service.TrainService;
 
 import jakarta.validation.Valid;
@@ -66,4 +67,10 @@ public class TrainController {
         service.deleteTrain(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    public List<TrainResponse> listType(@RequestParam(required = false) TrainType type) {
+        return service.listType(type);
+    }
+    
 }
