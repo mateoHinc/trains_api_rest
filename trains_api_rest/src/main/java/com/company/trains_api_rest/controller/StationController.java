@@ -11,7 +11,9 @@ import com.company.trains_api_rest.service.StationService;
 import jakarta.validation.Valid;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,9 +60,13 @@ public class StationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Long id){
         service.deleteStation(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "¡Estación Eliminada exitosamente!");
+
+        return ResponseEntity.ok(response);
     }
 
 }

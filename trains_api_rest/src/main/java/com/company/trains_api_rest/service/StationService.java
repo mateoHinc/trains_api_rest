@@ -72,10 +72,11 @@ public class StationService {
     }
 
     public void deleteStation(Long id){
-        if(!repo.existsById(id)){
+        if(repo.existsById(id)){   
+            repo.deleteById(id);
+        }else{
             throw new ResourceNotFoundException("Estación no encontrado: "+id);
         }
-        repo.deleteById(id);
     }
 
 }
