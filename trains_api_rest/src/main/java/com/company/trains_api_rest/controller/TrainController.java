@@ -37,7 +37,7 @@ public class TrainController {
     }
 
     @PostMapping()
-    public ResponseEntity<TrainResponse> createTrain(@Valid @RequestBody TrainCreateRequest req) {        
+    public ResponseEntity<TrainResponse> create(@Valid @RequestBody TrainCreateRequest req) {        
         TrainResponse created = service.createTrain(req);
         return ResponseEntity.created(URI.create("/api/trains/"+created.getId())).body(created);
     }
@@ -68,8 +68,8 @@ public class TrainController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public List<TrainResponse> listType(@RequestParam(required = false) TrainType type) {
+    @GetMapping(params = "type")
+    public List<TrainResponse> listType(@RequestParam TrainType type) {
         return service.listType(type);
     }
     

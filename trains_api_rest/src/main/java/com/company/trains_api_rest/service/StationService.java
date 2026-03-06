@@ -21,7 +21,7 @@ public class StationService {
     }
     
     private StationResponse toResponse(Station s){
-        return new StationResponse(s.getId(), s.getName(), s.getName(), s.getActive());
+        return new StationResponse(s.getId(), s.getName(), s.getCity(), s.getActive());
     }
 
     public StationResponse createStation(StationCreateRequest req){
@@ -71,7 +71,7 @@ public class StationService {
         return toResponse(repo.save(s));
     }
 
-    public void delete(Long id){
+    public void deleteStation(Long id){
         if(!repo.existsById(id)){
             throw new ResourceNotFoundException("Estación no encontrado: "+id);
         }

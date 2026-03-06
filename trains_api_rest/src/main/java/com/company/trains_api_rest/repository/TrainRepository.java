@@ -7,7 +7,6 @@ import com.company.trains_api_rest.model.TrainType;
 
 import java.util.List;
 
-
 public interface TrainRepository extends JpaRepository<Train, Long> {
     List<Train> findByType(TrainType type);
 
