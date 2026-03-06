@@ -69,10 +69,11 @@ public class TrainService {
     }
 
     public void deleteTrain(Long id){
-        if(!repo.existsById(id)){
+        if(repo.existsById(id)){
+            repo.deleteById(id);
+        }else{
             throw new ResourceNotFoundException("Tren no encontrado: "+id);
         }
-        repo.deleteById(id);
     }
 
     public List<TrainResponse> listType(TrainType type){
