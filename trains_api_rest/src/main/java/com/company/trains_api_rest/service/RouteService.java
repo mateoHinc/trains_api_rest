@@ -72,6 +72,30 @@ public class RouteService {
         return toResponse(routeRepo.save(route));
     }
 
+    public List<RouteResponse> listRoutes() {
+        return routeRepo.findAll().stream().map(this::toResponse).toList();
+    }
+
+    public RouteResponse getRoute(Long id){
+        Route route = routeRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ruta no encontrada: "+id));
+        return toResponse(route);
+    }
+
+    public RouteResponse updateRoute(Long id, RouteCreateRequest req) {
+        validateRouteStations(req.getOriginStationId(), req.getDestinationStationId());
+
+        Route route = routeRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ruta no encontrada: "+id));
+
+        route.setTrain(getTrainOrThrow(req.getTrainId()));
+        route.setOriginStation(getStationOrThrow(req.getOriginStationId()));
+        route.setDestinationStation(getStationOrThrow(req.getDestinationStationId()));
+        route.setDistanceKm(req.getDistanceKm());
+        route.setEstimatedTimeMinutes(req.getEstimatedTimeMinutes());
+        route.setActive(req.getActive() != null ? req.getActive() : route.getActive());
+
+        return toResponse(routeRepo.save(route));
+    }
+
     public RouteResponse patchRoute(Long id, RouteUpdateRequest req) {
         Route route = routeRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ruta no encontrada: "+id));
 
