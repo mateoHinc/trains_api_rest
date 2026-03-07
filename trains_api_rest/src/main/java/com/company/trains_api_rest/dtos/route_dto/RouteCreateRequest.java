@@ -20,7 +20,7 @@ public class RouteCreateRequest {
 
     @NotNull(message = "El tiempo estimado es requerido")
     @Min(value = 60, message = "El tiempo estimado en minutos debe ser mayor a 60")
-    private Double estimatedTimeMinutes;
+    private Integer estimatedTimeMinutes;
 
     private Boolean active;
 
@@ -56,11 +56,11 @@ public class RouteCreateRequest {
         this.distanceKm = distanceKm;
     }
 
-    public Double getEstimatedTimeMinutes() {
+    public Integer getEstimatedTimeMinutes() {
         return estimatedTimeMinutes;
     }
 
-    public void setEstimatedTimeMinutes(Double estimatedTimeMinutes) {
+    public void setEstimatedTimeMinutes(Integer estimatedTimeMinutes) {
         this.estimatedTimeMinutes = estimatedTimeMinutes;
     }
 
