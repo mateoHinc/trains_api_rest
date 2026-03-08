@@ -2,6 +2,8 @@ package com.company.trains_api_rest.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.company.trains_api_rest.dtos.route_dto.RouteCreateRequest;
 import com.company.trains_api_rest.dtos.route_dto.RouteResponse;
 import com.company.trains_api_rest.dtos.route_dto.RouteUpdateRequest;
@@ -13,8 +15,7 @@ import com.company.trains_api_rest.repository.RouteRepository;
 import com.company.trains_api_rest.repository.StationRepository;
 import com.company.trains_api_rest.repository.TrainRepository;
 
-import jakarta.annotation.Resource;
-
+@Service
 public class RouteService {
 
     private final RouteRepository routeRepo;
@@ -139,7 +140,7 @@ public class RouteService {
         return toResponse(routeRepo.save(route));
     }
 
-    public void deleteStation(Long id){
+    public void deleteRoute(Long id){
         if(routeRepo.existsById(id)){
             routeRepo.deleteById(id);
         }else{

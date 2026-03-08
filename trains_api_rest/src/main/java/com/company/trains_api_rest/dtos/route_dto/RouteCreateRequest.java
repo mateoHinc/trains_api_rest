@@ -15,11 +15,11 @@ public class RouteCreateRequest {
     private Long destinationStationId;
 
     @NotNull(message = "La distancia en Km es requerido")
-    @Min(value = 100, message = "Los kilometros debe ser mayor a 100")
+    @Min(value = 50, message = "Los kilometros debe ser mayor a 50")
     private Double distanceKm;
 
     @NotNull(message = "El tiempo estimado es requerido")
-    @Min(value = 60, message = "El tiempo estimado en minutos debe ser mayor a 60")
+    @Min(value = 20, message = "El tiempo estimado en minutos debe ser mayor a 20")
     private Integer estimatedTimeMinutes;
 
     private Boolean active;
