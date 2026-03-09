@@ -32,5 +32,11 @@ public class TicketSpecification {
     public static Specification<Ticket> hasTravelDate(LocalDate travelDate) {
         return (root, query, cb) -> travelDate == null ? null: cb.equal(root.get("travelDate"), travelDate);
     }
+    
+    public static Specification<Ticket> hasPassengerDocument(String passengerDocument) {
+        return (root, query, cb) -> passengerDocument == null ? null: cb.equal(root.get("passengerDocument"), passengerDocument);
+    }
+
+
 
 }
