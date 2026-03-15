@@ -8,10 +8,10 @@ public class RouteUpdateRequest {
     private Long originStationId;
     private Long destinationStationId;
 
-    @Min(value = 50, message = "Los kilometros debe ser mayor a 50")
+    @Min(value = 1, message = "Los kilometros debe ser mayor a 1")
     private Double distanceKm;
 
-    @Min(value = 20, message = "El tiempo estimado en minutos debe ser mayor a 20")
+    @Min(value = 1, message = "El tiempo estimado en minutos debe ser mayor a 1")
     private Double estimatedTimeMinutes;
 
     private Boolean active;
