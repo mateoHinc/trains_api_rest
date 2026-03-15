@@ -32,6 +32,10 @@ public class TicketService {
         return routeRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ruta no encontrada: "+id));
     }
 
+    private String normalizeSeatNumber(String seatNumber) {
+        return seatNumber == null ? null : seatNumber.trim().toUpperCase();
+    }
+
     private TicketResponse toResponse(Ticket ticket){
         return new TicketResponse(
             ticket.getId(), ticket.getRoute().getId(), ticket.getRoute().getTrain().getId(), ticket.getRoute().getTrain().getName(), ticket.getRoute().getOriginStation().getName(), ticket.getRoute().getDestinationStation().getName(), ticket.getPassengerName(), ticket.getPassengerDocument(), ticket.getPrice(), ticket.getSeatNumber(), ticket.getTravelDate(), ticket.getStatus()
@@ -39,16 +43,20 @@ public class TicketService {
     }
 
     public TicketResponse createTicket(TicketCreateRequest req){
+        // Obtiene la ruta o lanza error si no existe
         Route route = getRouteOrThrow(req.getRouteId());
 
-        validateSeatAvailability(req.getRouteId(), req.getTravelDate(), req.getSeatNumber());
+        // Normalizar minúscula a mayúscula el asiento antes de validar
+        String normalizedSeat = normalizeSeatNumber(req.getSeatNumber());
+
+        validateSeatAvailability(req.getRouteId(), req.getTravelDate(), normalizedSeat);
 
         Ticket ticket = new Ticket();
         ticket.setRoute(route);
         ticket.setPassengerName(req.getPassengerName());
         ticket.setPassengerDocument(req.getPassengerDocument());
         ticket.setPrice(req.getPrice());
-        ticket.setSeatNumber(req.getSeatNumber());
+        ticket.setSeatNumber(normalizedSeat);
         ticket.setTravelDate(req.getTravelDate());
         ticket.setStatus(req.getStatus());
 
