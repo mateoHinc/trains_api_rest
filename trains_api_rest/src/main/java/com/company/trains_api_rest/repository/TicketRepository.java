@@ -17,7 +17,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
         TicketStatus status
     );
 
-    boolean existsByRouteIdAndTravelDateAndSeatNumberAndStatusNotANdIdNot(
+    boolean existsByRouteIdAndTravelDateAndSeatNumberAndStatusNotAndIdNot(
         Long routeId,
         LocalDate traveDate,
         String seatNumber,
