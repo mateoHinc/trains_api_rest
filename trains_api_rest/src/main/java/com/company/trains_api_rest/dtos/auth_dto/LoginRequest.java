@@ -1,31 +1,16 @@
-package com.company.trains_api_rest.dtos.user_dto;
-
-import com.company.trains_api_rest.model.Role;
+package com.company.trains_api_rest.dtos.auth_dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class UserCreateRequest {
+public class LoginRequest {
 
-    @NotBlank(message = "El nombre de usuario es requerido")
-    private String name;
-
-    @Email(message = "El correo electronico debe ser válido")
+    @Email(message = "El correo electrónico debe ser valido")
     @NotBlank(message = "El correo electrónico es requerido")
     private String email;
 
     @NotBlank(message = "La contraseña es requerido")
     private String password;
-
-    private Role role;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
@@ -43,14 +28,6 @@ public class UserCreateRequest {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     
-    
+
 }

@@ -18,4 +18,25 @@ public class UserResponse {
         this.active = active;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    
 }
