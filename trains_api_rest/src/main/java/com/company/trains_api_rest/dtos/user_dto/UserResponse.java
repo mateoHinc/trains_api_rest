@@ -5,14 +5,14 @@ import com.company.trains_api_rest.model.Role;
 public class UserResponse {
     
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private Role role;
     private Boolean active;
     
-    public UserResponse(Long id, String name, String email, Role role, Boolean active) {
+    public UserResponse(Long id, String username, String email, Role role, Boolean active) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.role = role;
         this.active = active;
@@ -20,10 +20,6 @@ public class UserResponse {
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getEmail() {
@@ -38,5 +34,8 @@ public class UserResponse {
         return active;
     }
 
+    public String getUsername() {
+        return username;
+    }
     
 }
