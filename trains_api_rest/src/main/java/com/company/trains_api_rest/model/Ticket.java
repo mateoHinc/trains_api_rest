@@ -36,6 +36,10 @@ public class Ticket {
     @Column(nullable = false, length = 20)
     private TicketStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User seller;
+
     public Ticket() {
     }
 
