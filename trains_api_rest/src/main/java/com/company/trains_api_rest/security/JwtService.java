@@ -15,9 +15,9 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
     
-    private static final String SECRET_KEY = "123456789";
+    private static final String SECRET_KEY = "1234567890123456789012345678901212345678901234567890123456789012";
 
-    private String generateToken(String email, String role) {
+    public String generateToken(String email, String role) {
         return Jwts.builder().setSubject(email)
                 .setSubject(email)
                 .claim("role", role)
@@ -35,7 +35,7 @@ public class JwtService {
         return extractAllClaims(token).get("role", String.class);
     }
 
-    private boolean isTokenValid(String token, String email) {
+    public boolean isTokenValid(String token, String email) {
         final String username = extractUsername(token);
         return username.equals(email) && !isTokenExpired(token);
     }
