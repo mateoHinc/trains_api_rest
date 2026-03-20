@@ -14,9 +14,12 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    
-    private static final String SECRET_KEY = "1234567890123456789012345678901212345678901234567890123456789012";
+    /*La clave secreta en Base64
+    En producción esto debe ir en application.properties o variables de entorno
+     */
+    private static final String SECRET_KEY = "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMg==";
 
+    /*Generar un token JWT con email y rol*/
     public String generateToken(String email, String role) {
         return Jwts.builder().setSubject(email)
                 .setSubject(email)
@@ -27,23 +30,28 @@ public class JwtService {
                 .compact();
     }
 
+    /*Extrae el email del token */
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
+    /*Extrae el rol del token */
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
 
+    /*Verifica si el token corresponde al usuario y no está expirado */
     public boolean isTokenValid(String token, String email) {
         final String username = extractUsername(token);
         return username.equals(email) && !isTokenExpired(token);
     }
 
+    /*Verifica si el token expiró */
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
+    /*Extrae todos los claims del token */
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -52,6 +60,7 @@ public class JwtService {
                 .getBody();
     }
 
+    /*Construye la clave de firma */
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()));
         return Keys.hmacShaKeyFor(keyBytes);
