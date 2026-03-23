@@ -36,8 +36,8 @@ public class Ticket {
     @Column(nullable = false, length = 20)
     private TicketStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User seller;
 
     public Ticket() {
@@ -105,6 +105,14 @@ public class Ticket {
 
     public void setStatus(TicketStatus status) {
         this.status = status;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
 }

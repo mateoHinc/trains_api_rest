@@ -19,10 +19,13 @@ public class TicketResponse {
     private String seatNumber;
     private LocalDate travelDate;
     private TicketStatus status;
+    private Long sellerId;
+    private String sellerName;
+    private String sellerEmail;
     
     public TicketResponse(Long id, Long routeId, Long trainId, String trainName, String originStationName,
             String destinationStationName, String passengerName, String passengerDocumento, BigDecimal price,
-            String seatNumber, LocalDate travelDate, TicketStatus status) {
+            String seatNumber, LocalDate travelDate, TicketStatus status, Long sellerId, String sellerName, String sellerEmail) {
         this.id = id;
         this.routeId = routeId;
         this.trainId = trainId;
@@ -35,6 +38,9 @@ public class TicketResponse {
         this.seatNumber = seatNumber;
         this.travelDate = travelDate;
         this.status = status;
+        this.sellerId = sellerId;
+        this.sellerName = sellerName;
+        this.sellerEmail = sellerEmail;
     }
 
     public Long getId() {
@@ -85,4 +91,16 @@ public class TicketResponse {
         return status;
     }
 
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public String getSellerEmail() {
+        return sellerEmail;
+    }
+    
 }
