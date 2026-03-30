@@ -16,16 +16,22 @@ import com.company.trains_api_rest.model.TicketStatus;
 import com.company.trains_api_rest.repository.RouteRepository;
 import com.company.trains_api_rest.repository.TicketRepository;
 import com.company.trains_api_rest.repository.TicketSpecification;
+import com.company.trains_api_rest.model.User;
+import com.company.trains_api_rest.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class TicketService {
 
     private final TicketRepository ticketRepo;
     private final RouteRepository routeRepo;
+    private final UserService userService;
     
-    public TicketService(TicketRepository ticketRepo, RouteRepository routeRepo) {
+    public TicketService(TicketRepository ticketRepo, RouteRepository routeRepo, UserService userService) {
         this.ticketRepo = ticketRepo;
         this.routeRepo = routeRepo;
+        this.userService = userService;
     }
 
     private Route getRouteOrThrow(Long id) {
@@ -38,7 +44,7 @@ public class TicketService {
 
     private TicketResponse toResponse(Ticket ticket){
         return new TicketResponse(
-            ticket.getId(), ticket.getRoute().getId(), ticket.getRoute().getTrain().getId(), ticket.getRoute().getTrain().getName(), ticket.getRoute().getOriginStation().getName(), ticket.getRoute().getDestinationStation().getName(), ticket.getPassengerName(), ticket.getPassengerDocument(), ticket.getPrice(), ticket.getSeatNumber(), ticket.getTravelDate(), ticket.getStatus()
+            ticket.getId(), ticket.getRoute().getId(), ticket.getRoute().getTrain().getId(), ticket.getRoute().getTrain().getName(), ticket.getRoute().getOriginStation().getName(), ticket.getRoute().getDestinationStation().getName(), ticket.getPassengerName(), ticket.getPassengerDocument(), ticket.getPrice(), ticket.getSeatNumber(), ticket.getTravelDate(), ticket.getStatus(), ticket.getSeller().getId(), ticket.getSeller().getUsername(), ticket.getSeller().getEmail()
         );
     }
 
@@ -51,8 +57,11 @@ public class TicketService {
 
         validateSeatAvailability(req.getRouteId(), req.getTravelDate(), normalizedSeat);
 
+        User seller = getAuthenticatedUser();
+
         Ticket ticket = new Ticket();
         ticket.setRoute(route);
+        ticket.setSeller(seller);
         ticket.setPassengerName(req.getPassengerName());
         ticket.setPassengerDocument(req.getPassengerDocument());
         ticket.setPrice(req.getPrice());
@@ -63,8 +72,8 @@ public class TicketService {
         return toResponse(ticketRepo.save(ticket));
     }
 
-    public List<TicketResponse> listTickets(Long routeId, Long trainId, TicketStatus status, LocalDate travelDate, String passengerDocument) {
-        Specification<Ticket> spec = Specification.where(TicketSpecification.hasRoute(routeId)).and(TicketSpecification.hasTrain(trainId).and(TicketSpecification.hasStatus(status)).and(TicketSpecification.hasTravelDate(travelDate)).and(TicketSpecification.hasPassengerDocument(passengerDocument)));
+    public List<TicketResponse> listTickets(Long routeId, Long trainId, TicketStatus status, LocalDate travelDate, String passengerDocument, Long sellerId) {
+        Specification<Ticket> spec = Specification.where(TicketSpecification.hasRoute(routeId)).and(TicketSpecification.hasTrain(trainId).and(TicketSpecification.hasStatus(status)).and(TicketSpecification.hasTravelDate(travelDate)).and(TicketSpecification.hasPassengerDocument(passengerDocument)).and(TicketSpecification.hasSeller(sellerId)));
 
         return ticketRepo.findAll(spec).stream().map(this::toResponse).toList();
     }
@@ -160,5 +169,23 @@ public class TicketService {
             );
         }
     }
+
+    /*
+        Obtiene el usuario autenticado actualmente desde el contexto de Spring Security.
+
+        El email viene del JWT validado en el filtro.
+
+        return usuario autenticado
+    */
+   private User getAuthenticatedUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if(authentication == null || authentication.getName() == null) {
+        throw new IllegalArgumentException("Usuario autenticado no encontrado");
+    }
+
+    String email = authentication.getName();
+    return userService.findByEmail(email);
+   }
 
 }

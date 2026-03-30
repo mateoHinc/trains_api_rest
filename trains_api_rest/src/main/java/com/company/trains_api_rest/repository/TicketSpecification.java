@@ -37,6 +37,15 @@ public class TicketSpecification {
         return (root, query, cb) -> passengerDocument == null ? null: cb.equal(root.get("passengerDocument"), passengerDocument);
     }
 
+    /*
+        Filtra tickets por ID del vendedor.
+
+        @param sellerId ID del usuario vendedor
+        @return Specification que filtra tickets por vendedor
+    */
+   public static Specification<Ticket> hasSeller(Long sellerId) {
+    return (root, query, cb) -> sellerId == null ? null : cb.equal(root.get("seller").get("id"), sellerId);
+   }
 
 
 }

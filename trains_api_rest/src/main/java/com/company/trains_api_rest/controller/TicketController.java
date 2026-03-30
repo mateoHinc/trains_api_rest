@@ -15,7 +15,6 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.coyote.Response;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,13 +44,14 @@ public class TicketController {
     
     @GetMapping
     public List<TicketResponse> list(
-        @RequestParam(required = false) Long routedId,
+        @RequestParam(required = false) Long routeId,
         @RequestParam(required = false) Long trainId,
         @RequestParam(required = false) TicketStatus status,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate travelDate,
-        @RequestParam(required = false) String passengerDocument
+        @RequestParam(required = false) String passengerDocument,
+        @RequestParam(required = false) Long sellerId
     ) {
-        return service.listTickets(routedId, trainId, status, travelDate, passengerDocument);
+        return service.listTickets(routeId, trainId, status, travelDate, passengerDocument, sellerId);
     }
 
     @GetMapping("/{id}")
